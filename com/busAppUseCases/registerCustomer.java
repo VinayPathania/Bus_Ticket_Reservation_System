@@ -23,7 +23,7 @@ public class registerCustomer {
 //        System.out.println("Enter customer Departure date");
 //        String date = sc.nextLine();
 
-        System.out.println("Enter number of seats customer wants to book");
+        System.out.println("Enter number of seats customer  to book");
         int seats = sc.nextInt();
 
 

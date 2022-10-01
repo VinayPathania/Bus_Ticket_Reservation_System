@@ -5,5 +5,5 @@ public interface customerDao {
 
     public String bookTicket(String route, int noOfSeats);
 
-    public String cancelTicket(String s);
+    public String cancelTicket(String fn, String ln);
 }

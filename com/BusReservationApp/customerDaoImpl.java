@@ -66,8 +66,17 @@ public class customerDaoImpl implements customerDao {
     }
 
     @Override
-    public String cancelTicket(String s) {
-        return null;
+    public String cancelTicket( String fn, String ln) {
+        String message = "Ticket canceled";
+        try(Connection con = DButil.provideConnection()){
+            PreparedStatement p = con.prepareStatement("delete from customer where fname = fn && lname = ln");
+
+           p.executeUpdate();
+
+        }catch (SQLException e){
+            message = e.getMessage();
+        }
+        return message;
     }
 
 
