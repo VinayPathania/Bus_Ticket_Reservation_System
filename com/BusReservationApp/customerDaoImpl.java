@@ -33,19 +33,17 @@ public class customerDaoImpl implements customerDao {
 
     @Override
     public String bookTicket(String route, int noOfSeats) {
+        String message;
         String result = null;
-        String message= null;
         try (Connection con = DButil.provideConnection()){
-            PreparedStatement p = con.prepareStatement("update admin set seats = seats-noOfSeats where busRoute = route");
-
-            int x = p.executeUpdate();
-            if(x>0){
-                message = "Customer data added";
-            }
+            PreparedStatement p = con.prepareStatement("update admin set seats = seats - ? where busRoute = ?");
+            p.setInt(1,noOfSeats);
+            p.setString(2,route);
+             p.executeUpdate();
             PreparedStatement ps = con.prepareStatement("select * from admin where busRoute = ?");
             ps.setString(1,route);
             ResultSet rs =  ps.executeQuery();
-            if(rs.next()){
+           while (rs.next()){
                 String b = rs.getString("busName");
                 String r = rs.getString("busRoute");
                 String t = rs.getString("busType");
@@ -54,14 +52,16 @@ public class customerDaoImpl implements customerDao {
                 int s = rs.getInt("seats");
 //                s = s-noOfSeats;
 
-                result =  (" Bus Name: "+b+"\n Bus Route: "+r+"\n Bus type: "+t+"\n Arrival Time: "+ar+"\n Departure Time: "+dp+"\n Seats after booking: "+s);
-            }
+                result = (" Bus Name: "+b+"\n Bus Route: "+r+"\n Bus type: "+t+"\n Arrival Time: "+ar+"\n Departure Time: "+dp+"\n Seats after booking: "+s);
+                
+           }
 
+            message = "update done";
         }catch (SQLException e){
-            result = e.getMessage();
-            message = e.getMessage();
+           message = (e.getMessage());
         }
-        return message + "\n" +result;
+
+            return message+"\n" +result ;
 
     }
 
